@@ -3,12 +3,26 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { Howl } from "howler";
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
+
+/**
+ * Audio Setup with Howler.js
+ */
+const sound = new Howl({
+  src: ["lol.mp3"],
+  volume: 0.5,
+  autoplay: true,
+  loop: true,
+  onloaderror: function (id, error) {
+    console.error("Error loading audio:", error);
+  },
+});
 
 /**
  * Loaders
