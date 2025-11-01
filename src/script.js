@@ -55,7 +55,30 @@ gltfLoader.load("ForTheTrolls.glb", (gltf) => {
     } else if (child.name === "Purple_Fish") {
       purpleFish = child;
     }
+
+    // Update texture filtering for all materials
+    if (child.isMesh && child.material) {
+      // Handle both single materials and material arrays
+      const materials = Array.isArray(child.material)
+        ? child.material
+        : [child.material];
+
+      materials.forEach((material) => {
+        // Iterate through all possible texture properties
+        Object.keys(material).forEach((key) => {
+          const value = material[key];
+
+          // Check if this property is a texture
+          if (value && value.isTexture) {
+            value.minFilter = THREE.LinearFilter;
+            value.magFilter = THREE.LinearFilter;
+            value.needsUpdate = true;
+          }
+        });
+      });
+    }
   });
+
   scene.add(gltf.scene);
 });
 
